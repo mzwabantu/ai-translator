@@ -1,0 +1,17 @@
+[
+  { "label": "English", "code": "en" },
+  { "label": "German", "code": "de" },
+  { "label": "Spanish", "code": "es" },
+  { "label": "Chinese", "code": "zh" },
+  { "label": "Thai", "code": "th" },
+  { "label": "Arabic", "code": "ar" },
+  { "label": "Turkish", "code": "tr" },
+  { "label": "Hindi", "code": "hi" },
+  { "label": "Indonesian", "code": "id" },
+  { "label": "Russian", "code": "ru" },
+  { "label": "Korean", "code": "ko" },
+  { "label": "Afrikaans", "code": "af" },
+  { "label": "Albanian", "code": "sq" },
+  { "label": "Akan", "code": "ak" },
+  { "label": "Amharic", "code": "am" }
+]
