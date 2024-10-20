@@ -13,8 +13,6 @@ const App: React.FC = () => {
   const [fromLang, setFromLang] = useState("en");
   const [toLang, setToLang] = useState("de");
 
-  const API_URL =
-    process.env.REACT_APP_API_URL || "http://localhost:3000/translate";
   const recognition = useMemo(
     () => new (window.SpeechRecognition || window.webkitSpeechRecognition)(),
     []
@@ -24,8 +22,9 @@ const App: React.FC = () => {
     // Function to call the backend API for translation
     const translate = async (text: string) => {
       setIsTranslating(true);
+
       try {
-        const response = await fetch(API_URL, {
+        const response = await fetch("/api/translate", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +57,7 @@ const App: React.FC = () => {
       setIsListening(false);
     };
     recognition.onend = () => setIsListening(false);
-  }, [fromLang, recognition, API_URL, toLang]);
+  }, [fromLang, recognition, toLang]);
 
   // Start listening for voice input
   const startListening = () => {

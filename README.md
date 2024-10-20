@@ -23,7 +23,7 @@ This project features a voice-activated language translator built using React, T
 
 ### Links
 - Code URL: [Github Repo.](https://github.com/mzwabantu/ai-translator)
-- Live Site URL: [Ai Transalator](http://mzwwwa.co.za/)
+- Live Site URL: [Ai Transalator](http://ai-translator.mzwwwa.co.za/)
 
 
 ## Tech stack

@@ -8,6 +8,15 @@ export default defineConfig(({ mode }) => {
     define: {
       "process.env.REACT_APP_API_URL": JSON.stringify(env.REACT_APP_API_URL),
     },
+    server: {
+      proxy: {
+        "/api": {
+          target: "http://localhost:3000",
+          changeOrigin: true,
+          secure: false,
+        },
+      },
+    },
     plugins: [react()],
   };
 });
