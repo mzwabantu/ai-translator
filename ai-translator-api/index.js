@@ -30,23 +30,42 @@ app.get('/api/translate', (req, res) => {
 });
 
 app.post('/api/translate', async (req, res) => {
-    const { text, fromLang, toLang } = req.body;
-    const modelId = `Helsinki-NLP/opus-mt-${fromLang}-${toLang}`; // explore opus-100 also
+  const { text, fromLang, toLang } = req.body;
+  const modelId = `Helsinki-NLP/opus-mt-${fromLang}-${toLang}`;
 
-    try {
-        const response = await axios.post(
-            `https://api-inference.huggingface.co/models/${modelId}`,
-            { inputs: text },
-            { headers: { Authorization: `Bearer ${process.env.HF_API_KEY}` } }
-        );
+  try {
+    const modelCheck = await axios.get(
+      `https://huggingface.co/api/models/${modelId}`,
+      { headers: { Authorization: `Bearer ${process.env.HF_API_KEY}` } }
+    );
 
-        const translatedText = response.data[0]?.translation_text || 'Translation not available';
-        res.json({ translatedText });
-    } catch (error) {
-        console.error('Translation Error:', error);
-        res.status(500).json({ message: 'Error translating text', error });
+    if (modelCheck.status === 200) {
+      const translationResponse = await axios.post(
+        `https://api-inference.huggingface.co/models/${modelId}`,
+        { inputs: text },
+        { headers: { Authorization: `Bearer ${process.env.HF_API_KEY}` } }
+      );
+
+      const translatedText =
+        translationResponse.data[0]?.translation_text || 'Translation not available';
+      return res.json({ translatedText });
+    } else {
+      return res.status(404).json({ translatedText: 'Model not supported yet' });
     }
+  } catch (error) {
+    console.error('Translation Error:', error);
+
+    const status = error.response?.status;
+    if (status === 401) {
+      return res.status(401).json({ message: 'Invalid or missing API key' });
+    } else if (status === 404) {
+      return res.status(404).json({ translatedText: 'Model not supported yet' });
+    } else {
+      return res.status(500).json({ message: 'Error translating text', error });
+    }
+  }
 });
+
 
 
 // Server
